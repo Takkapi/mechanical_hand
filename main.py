@@ -9,7 +9,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 
 ev3 = EV3Brick()
 # buttons = Button()
-motorX = Motor(Port.C)
+motorZ = Motor(Port.C)
 hand = Motor(Port.A)
 handClosed = False
 
@@ -25,7 +25,7 @@ sensor = TouchSensor(Port.S1)
 while(True):
     pressed = ev3.buttons.pressed()
     ev3.light.on(Color.ORANGE)
-    # motorX.stop()
+    # motorZ.stop()
 
     # Main hand
     if(Button.CENTER in pressed):
@@ -50,24 +50,24 @@ while(True):
 
     if(Button.LEFT in pressed):
         ev3.light.on(Color.GREEN)
-        motorX.run(-120)
-        # motorX.dc(20)
+        motorZ.run(-120)
+        # motorZ.dc(20)
         pass
     elif True:
         pass
-    else: motorX.stop() pass
+    else: motorZ.stop() pass
 
 
     if(Button.RIGHT in pressed):
         ev3.light.on(Color.GREEN)
-        motorX.run(120)
-        # motorX.dc(-20)
+        motorZ.run(120)
+        # motorZ.dc(-20)
         pass
     elif Button.RIGHT in pressed and sensor.pressed():
         ev3.speaker.beep(500, 100)
         ev3.light.on(Color.RED)
         pass
-    else: motorX.stop() pass
+    else: motorZ.stop() pass
 
     # if Button.RIGHT in pressed and sensor.pressed():
     #     ev3.speaker.beep(500, 100)
@@ -79,12 +79,12 @@ while(True):
         # elif Button.RIGHT in pressed:
 
 
-# motorX.run(-90)
+# motorZ.run(-90)
 
 # wait(5000)
 
 ev3.light.on(Color.RED)
-# motorX.stop()
+# motorZ.stop()
 
 
 # if ev3.button.pressed(button.left):
