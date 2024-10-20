@@ -10,83 +10,79 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 # buttons = Button()
 motorZ = Motor(Port.C)
+motorX = Motor(Port.B)
 hand = Motor(Port.A)
-handClosed = False
 
-# Set hand to the default position
-# if hand.angle() < 55:
-#     hand.run_target(500, 50, then=Stop.HOLD)
-# else: pass
-
-
-
+light_sensor = ColorSensor(Port.S3)
 sensor = TouchSensor(Port.S1)
 
+handClosed = False
+
 while(True):
+
+    if sensor.pressed():
+        # ev3.speaker.play_file("./rickroll.mp3")
+        ev3.screen.load_image("./rickroll_4k")
+        # wait(10000)
+        pass
+
     pressed = ev3.buttons.pressed()
-    ev3.light.on(Color.ORANGE)
-    # motorZ.stop()
+    ev3.light.on(Color.GREEN)
 
     # Main hand
-    if(Button.CENTER in pressed):
+    if Button.CENTER in pressed:
         if handClosed == False:
-            ev3.light.on(Color.GREEN)
+            ev3.light.on(Color.ORANGE)
             hand.run_target(400, -50, then=Stop.HOLD)
             if hand.control.stalled():
+                hand.hold()
                 pass
             handClosed = True
-            print(hand.angle())
             pass
-            # break
         elif handClosed == True:
-            ev3.light.on(Color.GREEN)
+            ev3.light.on(Color.ORANGE)
             hand.run_target(400, 50, then=Stop.HOLD)
             if hand.control.stalled():
+                hand.hold()
                 pass
             handClosed = False
-            print(hand.angle())
             pass
-            # break
-
-    if(Button.LEFT in pressed):
-        ev3.light.on(Color.GREEN)
-        motorZ.run(-120)
-        # motorZ.dc(20)
         pass
-    elif True:
+
+    # Hand Z rotation
+    if not Button.LEFT in pressed and not Button.RIGHT in pressed:
+        motorZ.hold()
         pass
-    else: motorZ.stop() pass
 
+    if Button.LEFT in pressed:
+        ev3.light.on(Color.ORANGE)
+        motorZ.run(-240)
+        pass
 
-    if(Button.RIGHT in pressed):
-        ev3.light.on(Color.GREEN)
-        motorZ.run(120)
-        # motorZ.dc(-20)
+    if Button.RIGHT in pressed and not sensor.pressed():
+        ev3.light.on(Color.ORANGE)
+        motorZ.run(240)
         pass
     elif Button.RIGHT in pressed and sensor.pressed():
         ev3.speaker.beep(500, 100)
         ev3.light.on(Color.RED)
+        motorZ.stop()
         pass
-    else: motorZ.stop() pass
 
-    # if Button.RIGHT in pressed and sensor.pressed():
-    #     ev3.speaker.beep(500, 100)
-    #     ev3.light.on(Color.RED)
-    #     pass
+    # Hand X rotation
+    if not Button.UP in pressed and not Button.DOWN in pressed:
+        motorX.hold()
+        pass
 
-
-    # if Button.LEFT in pressed:
-        # elif Button.RIGHT in pressed:
-
-
-# motorZ.run(-90)
-
-# wait(5000)
+    if Button.UP in pressed and not light_sensor.color() == Color.WHITE:
+        ev3.light.on(Color.ORANGE)
+        motorX.run(-240)
+        pass
+    
+    if Button.DOWN in pressed:
+        ev3.light.on(Color.ORANGE)
+        motorX.run(240)
+        pass
 
 ev3.light.on(Color.RED)
-# motorZ.stop()
-
-
-# if ev3.button.pressed(button.left):
-#     pass
 
